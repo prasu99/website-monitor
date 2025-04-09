@@ -6,7 +6,7 @@ websites = {
     "Forbes Travel Insurance": "https://travelinsurance.advisorjourney.forbes.com/search/",
     "Forbes AU": "https://www.forbes.com/advisor/au/",
     "Forbes IT": "https://www.forbes.com/advisor/it/",
-    "Forbes CA": "https://www.forbes.com/advisor/it/dfdf"
+    "Forbes CA": "https://www.forbes.com/advisor/ca/"
 }
 
 def check_sites():
@@ -28,7 +28,6 @@ def send_to_slack(message):
     requests.post(webhook_url, json=payload)
 
 if __name__ == "__main__":
-    message = check_sites()
-    print(message)
-    send_to_slack(message)
-
+    result = check_sites()
+    print(result)
+    send_to_slack(result)
