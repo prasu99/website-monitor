@@ -6,7 +6,7 @@ websites = {
     "Forbes Travel Insurance": "https://travelinsurance.advisorjourney.forbes.com/search/",
     "Forbes AU": "https://www.forbes.com/advisor/au/",
     "Forbes IT": "https://www.forbes.com/advisor/it/",
-    "Forbes CA": "https://www.forbes.com/advisor/ca/"
+    "Forbes CA": "https://www.forbes.com/advisor/it/dfdf"
 }
 
 def check_sites():
