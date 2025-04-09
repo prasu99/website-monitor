@@ -1,32 +1,34 @@
 import requests
 import os
 
-webhook_url = os.environ["SLACK_WEBHOOK"]
 websites = {
-    "USAT": "https://usat.example.com",
-    "Site2": "https://site2.com",
-    "Site3": "https://site3.com",
-    "Site4": "https://site4.com",
-    "Site5": "https://site5.com"
+    "USAT": "https://www.usatoday.com/money/blueprint/",
+    "Forbes Travel Insurance": "https://travelinsurance.advisorjourney.forbes.com/search/",
+    "Forbes AU": "https://www.forbes.com/advisor/au/",
+    "Forbes IT": "https://www.forbes.com/advisor/it/",
+    "Forbes CA": "https://www.forbes.com/advisor/ca/"
 }
 
-def check_websites():
-    status_messages = []
+def check_sites():
+    messages = []
     for name, url in websites.items():
         try:
             response = requests.get(url, timeout=10)
             if response.status_code == 200:
-                status_messages.append(f"✅ {name} site is good")
+                messages.append(f"✅ {name} site is good")
             else:
-                status_messages.append(f"⚠️ {name} site returned {response.status_code}")
-        except Exception as e:
-            status_messages.append(f"❌ {name} site is down ({str(e)})")
+                messages.append(f"❌ {name} site returned status code {response.status_code}")
+        except requests.RequestException as e:
+            messages.append(f"❌ {name} site is down ({e})")
+    return "\n".join(messages)
 
-    message = "\n".join(status_messages)
-    send_to_slack(message)
-
-def send_to_slack(text):
-    payload = {"text": text}
+def send_to_slack(message):
+    webhook_url = os.environ["SLACK_WEBHOOK"]
+    payload = {"text": message}
     requests.post(webhook_url, json=payload)
 
-check_websites()
+if __name__ == "__main__":
+    message = check_sites()
+    print(message)
+    send_to_slack(message)
+
