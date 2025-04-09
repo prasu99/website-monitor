@@ -1,9 +1,9 @@
-name: Check Websites Every 3 Hours
+name: Check Websites Every 2 Minutes
 
 on:
   schedule:
-    - cron: "0 */3 * * *"  # Runs every 3 hours
-  workflow_dispatch:       # Manual trigger
+    - cron: "*/2 * * * *"  # Every 2 minutes
+  workflow_dispatch:
 
 jobs:
   check-sites:
