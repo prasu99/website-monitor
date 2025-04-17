@@ -1,0 +1,36 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16' # Adjust based on your Node.js version
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Run Playwright Tests
+        run: |
+          npx playwright install --with-deps # Install Playwright dependencies
+          npm run test # Replace this with your test script (e.g., `playwright test`)
+
+      - name: Send Slack Notification
+        if: always()  # This ensures the step runs regardless of pass/fail status
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Playwright tests finished on GitHub Actions. Check results at https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}."}' ${{ secrets.SLACK_WEBHOOK_URL }}
